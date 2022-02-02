@@ -17,8 +17,9 @@
 
 # Dependencies
 
-- `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+Generic Linux / macOS shell utilities.
+
+`code-server` requires node.js, but it's already bundled with the installer.
 
 # Install
 
