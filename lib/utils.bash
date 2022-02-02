@@ -45,17 +45,17 @@ download_release() {
   uname_m="$(uname -m)"
 
   case "$uname_s" in
-    Darwin) os="macos" ;;
-     Linux) os="linux" ;;
-         *) fail "OS not supported: $uname_s" ;;
+  Darwin) os="macos" ;;
+  Linux) os="linux" ;;
+  *) fail "OS not supported: $uname_s" ;;
   esac
 
   case "$uname_m" in
-     x86_64) arch="amd64" ;;
-    aarch64) arch="arm64" ;;
-     armv8l) arch="arm64" ;;
-     armv7l) arch="armv7l" ;;
-          *) fail "Hardware not supported: $uname_m" ;;
+  x86_64) arch="amd64" ;;
+  aarch64) arch="arm64" ;;
+  armv8l) arch="arm64" ;;
+  armv7l) arch="armv7l" ;;
+  *) fail "Hardware not supported: $uname_m" ;;
   esac
 
   url="https://github.com/coder/code-server/releases/download/v${version}/code-server-${version}-${os}-${arch}.tar.gz"
