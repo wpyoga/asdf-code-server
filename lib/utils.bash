@@ -54,6 +54,7 @@ download_release() {
   x86_64) arch="amd64" ;;
   aarch64) arch="arm64" ;;
   armv8l) arch="arm64" ;;
+  arm64) arch="arm64" ;;
   armv7l) arch="armv7l" ;;
   *) fail "Hardware not supported: $uname_m" ;;
   esac
