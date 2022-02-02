@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for code-server.
 GH_REPO="https://github.com/coder/code-server"
 TOOL_NAME="code-server"
 TOOL_TEST="code-server --version"
@@ -31,7 +30,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
   # Change this function if code-server has other means of determining installable versions.
   list_github_tags
 }
@@ -41,8 +39,26 @@ download_release() {
   version="$1"
   filename="$2"
 
-  # TODO: Adapt the release URL convention for code-server
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  local os arch
+  local uname_s uname_m
+  uname_s="$(uname -s)"
+  uname_m="$(uname -m)"
+
+  case "$uname_s" in
+    Darwin) os="macos" ;;
+     Linux) os="linux" ;;
+         *) fail "OS not supported: $uname_s" ;;
+  esac
+
+  case "$uname_m" in
+     x86_64) arch="amd64" ;;
+    aarch64) arch="arm64" ;;
+     armv8l) arch="arm64" ;;
+     armv7l) arch="armv7l" ;;
+          *) fail "Hardware not supported: $uname_m" ;;
+  esac
+
+  url="https://github.com/coder/code-server/releases/download/v${version}/code-server-${version}-${os}-${arch}.tar.gz"
 
   echo "* Downloading $TOOL_NAME release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -61,7 +77,6 @@ install_version() {
     mkdir -p "$install_path"
     cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-    # TODO: Asert code-server executable exists.
     local tool_cmd
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
